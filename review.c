@@ -77,6 +77,29 @@ Node *delete_tail(Node* head)
         }
 }
 
+Node *deleting_match_node(Node *head, int value)
+{
+    Node *current = head;
+    Node *prev = NULL;
+    if(current->value == value && current != NULL)
+    {
+        head = head->next;
+        free(current);
+        return head;
+    }
+    while (current->value != value && current != NULL)
+    {
+        prev = current;
+        current = current->next;
+    } 
+    if (current->value == value && current != NULL)
+    {
+        prev->next = current->next;
+        free(current);
+    }
+    return head;
+
+}
 void *print_list(Node *head)
 {
     Node *current = head;
@@ -96,8 +119,9 @@ int main()
     node = insert(node, 3);
     node = insert(node, 4);
     node = insert_tail(node, 9);
-    node = delete_head(node);
-    node = delete_tail(node);
+    node = deleting_match_node(node, 9);
+    //node = delete_head(node);
+    //node = delete_tail(node);
     print_list(node);
 }
 

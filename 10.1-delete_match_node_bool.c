@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct node
 {
@@ -24,28 +25,36 @@ Node *insert(Node *head, int new_value)
     }
 }
 
-Node    *delete_matching_node(Node *head, int value)
+Node    *delete_matching_node(Node *head, int value, bool *match)
 {
     Node *current = head;
     Node *prev = NULL;
 
-    if (current != NULL && current->data == value) //If match at head node
+    if (head == NULL) //If head is NULL
     {
-        head = current->next;
-        free(current);
-        return head;
+        *match = false;
+        return NULL;
     }
-
-    while (current != NULL && current->data != value) // Iterate untill match
+    if (head->data == value) // If head Match value
     {
+        head = head->next; 
+        free(current);
+        *match = true;
+        return head; 
+    }
+    while (current != NULL)
+    {
+        if(current->data == value)
+        {
+            prev->next = current->next; 
+            free(current);
+            *match = true;
+            return head;
+        }
         prev = current;
-        current = current->next; 
+        current = current->next;
     }
-    if (current != NULL)
-    {
-        prev->next = current->next; //Points to where current was pointing, taking out current from list
-        free(current);
-    }
+    *match = false;
     return head;
 }
 
@@ -65,16 +74,17 @@ void print_list(Node *head)
 int main()
 {
     Node *node = NULL;   
-    printf("\nBefore replace:\n");
     node = insert(node, 4);
     node = insert(node, 5);
     node = insert(node, 5);
     node = insert(node, 6);
     node = insert(node, 5);
-    print_list(node);
-    printf("\n\n");
-
-    delete_matching_node(node, 6);
+    bool match;
+    node = delete_matching_node(node, 4, &match); //pass by reference
+    if (match)
+        printf("\nYou deleted a match\n");
+    else
+        printf("No match");
     print_list(node);
 
 }
