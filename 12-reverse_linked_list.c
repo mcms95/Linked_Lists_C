@@ -58,7 +58,7 @@ int main()
 {   
     printf("\nList 1:\n");
     Node *list1  = NULL;
-    for (int i = 0; i < 3; i++)
+    for (int i = 1; i <= 6; i++)
         list1 = insert(list1, i);
     printf("Original list:\n");
     print_list(list1);
