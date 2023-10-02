@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node{
+    int value;
+    struct node *next;
+} Node;
+
+/// Insert a node at the tail of the linked list
+Node *insert_tail(Node *head, int new_value) {
+    Node *new_node = calloc(1, sizeof(Node)); // Allocate memory for the new node
+    new_node->value = new_value;               // Set the value for the new node
+
+    // If the list is empty, the new node becomes the head
+    if (head == NULL)
+        return new_node;
+    else {
+        Node *current = head;
+
+        // Traverse to the end of the list
+        while (current->next != NULL) {
+            current = current->next;
+        }
+
+        // Append the new node to the end of the list
+        current->next = new_node;
+        return head;  // Return the head (unchanged)
+    }
+}
+
+// Print the linked list
+void print_list(Node *head) {
+    Node *current;  // Pointer to traverse the list
+    current = head; // Start from the head of the list
+    int i = 0;      // Counter for node numbering
+
+    // Traverse the list and print node values
+    while (current != NULL) {
+        printf("Node %d : %d\n", i, current->value);
+        i++;
+        current = current->next;
+    }
+}
+
+int main()
+{
+    Node *list = NULL;
+
+    list = insert_tail(list, 1);
+    list = insert_tail(list, 2);
+    list = insert_tail(list, 3);
+
+
+    print_list(list);
+
+}
